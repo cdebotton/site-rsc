@@ -1,0 +1,61 @@
+@keyframes bg-scroll-x {
+	from {
+		background-position: 0vw 0vh;
+	}
+
+	to {
+		background-position: -300vw 0vh;
+	}
+}
+
+.logo {
+	display: inline-flex;
+	flex-flow: column;
+	align-items: center;
+	pointer-events: none;
+	user-select: none;
+}
+
+[data-theme='VAPORWAVE'] .logo {
+	--from: var(--blue-9);
+	--via: var(--purple-9);
+	--to: var(--blue-9);
+}
+
+[data-theme='EVA-02'] .logo {
+	--from: var(--orange-9);
+	--via: var(--red-9);
+	--to: var(--orange-9);
+}
+
+.furi {
+	font-size: var(--text-xs);
+	letter-spacing: var(--tracking-thiccc);
+}
+
+.name {
+	display: inline-flex;
+	align-items: center;
+	animation: bg-scroll-x 7.5s linear infinite alternate both;
+	background-clip: text;
+	background-image: linear-gradient(
+		to bottom right,
+		var(--from) 0%,
+		var(--via) 45%,
+		var(--via) 55%,
+		var(--to) 100%
+	);
+	background-size: 400vw 400vh;
+	color: transparent;
+	font-size: var(--text-3xl);
+	font-weight: 900;
+	letter-spacing: var(--tracking-tighter);
+	line-height: 0.8;
+	text-transform: uppercase;
+}
+
+.small {
+	padding: 0 var(--space-3);
+	color: var(--text);
+	font-size: var(--text-xl);
+}

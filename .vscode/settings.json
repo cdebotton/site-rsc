@@ -1,0 +1,14 @@
+{
+  "editor.formatOnSave": true,
+  "editor.formatOnPaste": true,
+  "editor.codeActionsOnSave": {
+    "source.fixAll": true
+  },
+  "explorer.fileNesting.enabled": true,
+  "explorer.fileNesting.patterns": {
+    "package.json": "pnpm-lock.yaml",
+    "*.tsx": "$(capture).module.css"
+  },
+  "typescript.tsdk": "node_modules/.pnpm/typescript@4.9.5/node_modules/typescript/lib",
+  "typescript.enablePromptUseWorkspaceTsdk": true
+}

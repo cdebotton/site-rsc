@@ -1,0 +1,6 @@
+.container {
+	position: relative;
+	display: grid;
+	height: 100%;
+	grid-template-rows: min-content auto min-content;
+}
