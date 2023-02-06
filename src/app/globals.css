@@ -141,14 +141,31 @@ button:focus {
 [data-theme='VAPORWAVE'] {
 	--app-bg: var(--indigo-dark-1);
 	--text: var(--plum-dark-12);
+	--color-surface: var(--indigo-dark-3);
+	--color-text: var(--indigo-dark-12);
+	--color-emphasis: var(--indigo-dark-11);
+	--color-accent: var(--plum-dark-11);
+	--brand-blue: var(--blue-9);
+	--brand-purple: var(--purple-9);
 }
 
 [data-theme='EVA-02'] {
 	--app-bg: var(--red-1);
 	--text: var(--red-12);
+	--color-surface: var(--indigo-3);
+	--color-text: var(--indigo-12);
+	--color-emphasis: var(--orange-10);
+	--color-accent: var(--red-11);
+	--brand-blue: var(--crimson-11);
+	--brand-purple: var(--orange-9);
 }
 
 [lang='ja'] {
 	font-family: 'ヒラギノ角ゴ Pro W3', 'Hiragino Kaku Gothic Pro', Osaka,
 		'メイリオ', Meiryo, 'ＭＳ Ｐゴシック', 'MS PGothic', sans-serif;
+}
+
+::selection {
+	background-color: var(--mauve-12);
+	color: var(--purple-4);
 }

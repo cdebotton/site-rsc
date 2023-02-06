@@ -1,5 +1,6 @@
 import './globals.css';
 import { Inter } from '@next/font/google';
+import { cx } from 'class-variance-authority';
 import dynamic from 'next/dynamic';
 import { cookies } from 'next/headers';
 
@@ -32,11 +33,11 @@ export default function RootLayout({
 				<body>
 					<DynamicBackground style={{ position: 'fixed', inset: 0 }} />
 					<div className={styles.container}>
-						<header>
+						<header className={cx(styles.header, styles.center)}>
 							<Logo />
 						</header>
-						{children}
-						<footer>
+						<main className={cx(styles.center)}>{children}</main>
+						<footer className={cx(styles.center)}>
 							<ThemeToggle />
 						</footer>
 					</div>

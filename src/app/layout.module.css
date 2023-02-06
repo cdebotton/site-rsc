@@ -2,5 +2,16 @@
 	position: relative;
 	display: grid;
 	height: 100%;
+	grid-template-columns: auto minmax(32rem, 72rem) auto;
 	grid-template-rows: min-content auto min-content;
+}
+
+.header {
+	position: sticky;
+	top: 0;
+}
+
+.center {
+	padding: var(--space-4);
+	grid-column: 2 / span 1;
 }

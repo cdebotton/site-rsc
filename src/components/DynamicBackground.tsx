@@ -1,17 +1,45 @@
 'use client';
 
+import {
+	indigoDark,
+	red,
+	orange,
+	slateDark,
+	slate,
+	violetDark,
+	plumDark,
+} from '@radix-ui/colors';
 import { a, useSpring, useSprings } from '@react-spring/three';
-import { useGLTF, Edges } from '@react-three/drei';
+import {
+	useGLTF,
+	Edges,
+	Environment,
+	ContactShadows,
+	MeshTransmissionMaterial,
+	Preload,
+} from '@react-three/drei';
 import {
 	Canvas,
 	useFrame,
+	useThree,
 	type GroupProps,
 	type InstancedMeshProps,
 	type MeshProps,
 	type Props,
 } from '@react-three/fiber';
-import { useMemo, useRef, useState } from 'react';
-import { type InstancedMesh, Matrix4, type Mesh } from 'three';
+import { EffectComposer, SSAO } from '@react-three/postprocessing';
+import { damp, dampC } from 'maath/easing';
+import { ReactNode, Suspense, useMemo, useRef, useState } from 'react';
+import {
+	type InstancedMesh,
+	type Group,
+	Matrix4,
+	type Mesh,
+	SphereGeometry,
+	MeshBasicMaterial,
+	Color,
+	Object3D,
+} from 'three';
 
 import { ThemeContext } from './ThemeProvider';
 
@@ -19,6 +47,26 @@ import type { GLTF } from 'three-stdlib';
 
 function useColor() {
 	let theme = ThemeContext.useSelector((state) => state.context.theme);
+
+	if (theme === 'EVA-02') {
+		return {
+			surface: red.red1,
+			surfaceSubtle: slate.slate4,
+			surfaceSubtle2: slate.slate5,
+			fg: red.red10,
+			fgSubtle: orange.orange2,
+			accent: orange.orange8,
+		};
+	}
+
+	return {
+		surface: indigoDark.indigo1,
+		surfaceSubtle: slateDark.slate5,
+		surfaceSubtle2: slateDark.slate7,
+		fg: plumDark.plum4,
+		fgSubtle: violetDark.violet4,
+		accent: plumDark.plum10,
+	};
 }
 
 export default function SolarSystem(props: Omit<Props, 'children'>) {
@@ -26,25 +74,97 @@ export default function SolarSystem(props: Omit<Props, 'children'>) {
 		<Canvas
 			shadows="soft"
 			orthographic
+			gl={{ alpha: false }}
 			camera={{ zoom: 50, position: [10, 20, 20] }}
 			eventPrefix="client"
 			eventSource={document.body}
 			{...props}
 		>
 			<directionalLight intensity={0.4} />
-			<pointLight castShadow position={[-4, 10, 0]} intensity={0.4} />
-			<Planet />
-			<Moons orbitRadius={8} count={500} />
+			<pointLight castShadow position={[-4, 10, 0]} intensity={0.8} />
+			<CameraOrbit />
+			<Fog />
+			<Background />
+			<Bounce>
+				<Planet />
+				<Moons orbitRadius={8} count={750} />
+			</Bounce>
 			<Floor position={[0, -4, 0]} size={[100, 100]} />
+			<EffectComposer multisampling={0}>
+				<SSAO
+					samples={5}
+					radius={0.15}
+					intensity={20}
+					luminanceInfluence={0.6}
+					color="red"
+				/>
+				<SSAO
+					samples={5}
+					radius={0.03}
+					intensity={15}
+					luminanceInfluence={0.6}
+					color="red"
+				/>
+			</EffectComposer>
+			<ContactShadows
+				position={[0, -30, 0]}
+				opacity={0.6}
+				scale={130}
+				blur={1}
+				far={40}
+			/>
+			<Suspense fallback={null}>
+				<Environment preset="sunset" />
+			</Suspense>
+			<Preload all />
 		</Canvas>
 	);
 }
 
-function Planet(props: Pick<MeshProps, 'position' | 'rotation' | 'scale'>) {
-	let ref = useRef<Mesh>(null!);
+function Background() {
+	let color = useColor().surface;
+	return <color attach="background" args={[color]} />;
+}
+
+function CameraOrbit() {
+	let { camera, pointer } = useThree();
+
+	useFrame((_, d) => {
+		damp(camera.position, 'x', Math.sin(pointer.x) * 20, 0.25, d);
+		camera.lookAt(0, 0, 0);
+	});
+
+	return null;
+}
+
+function Fog() {
+	let color = useColor().surface;
+
+	return <fog attach="fog" color={color} near={24} far={37} />;
+}
+
+function Bounce({ children }: { children?: ReactNode }) {
+	let ref = useRef<Group>(null!);
 
 	useFrame(({ clock }) => {
 		let t = clock.getElapsedTime();
+		ref.current.position.y = Math.sin(t) * 2 + 1;
+	});
+
+	return <group ref={ref}>{children}</group>;
+}
+
+function Planet(props: Pick<MeshProps, 'position' | 'rotation' | 'scale'>) {
+	let ref = useRef<Mesh<SphereGeometry, MeshBasicMaterial>>(null!);
+	let planetColor = useColor().fg;
+	let edgeColor = useColor().accent;
+	let [hover, setHover] = useState(false);
+
+	useFrame(({ clock }, d) => {
+		let t = clock.getElapsedTime();
+
+		dampC(ref.current.material.color, hover ? edgeColor : planetColor, 0.25, d);
+
 		ref.current.rotation.x = Math.sin(t);
 		ref.current.rotation.z = Math.cos(t);
 	});
@@ -65,13 +185,23 @@ function Planet(props: Pick<MeshProps, 'position' | 'rotation' | 'scale'>) {
 	});
 
 	return (
-		<a.mesh castShadow scale={springs.scale} ref={ref} {...props}>
-			<octahedronGeometry args={[3, 2]} />
-			<meshToonMaterial />
-			<Edges />
+		<a.mesh
+			onPointerEnter={() => setHover(true)}
+			onPointerLeave={() => setHover(false)}
+			castShadow
+			scale={springs.scale}
+			ref={ref}
+			{...props}
+		>
+			<octahedronGeometry args={[3, 3]} />
+			<meshToonMaterial color={planetColor} />
+			<Edges color={edgeColor} />
 		</a.mesh>
 	);
 }
+
+const tempColor = new Color();
+const tempObject = new Object3D();
 
 function Moons({
 	count = 750,
@@ -79,13 +209,32 @@ function Moons({
 	...props
 }: InstancedMeshProps & { count?: number; orbitRadius?: number }) {
 	let ref = useRef<InstancedMesh>(null!);
+	let moonColor = useColor().fgSubtle;
+	let hoverColor = useColor().accent;
+
+	let colors = useMemo(() => {
+		return Array.from({ length: count }, () => new Color(moonColor));
+	}, [count, moonColor]);
+
+	let colorArray = useMemo(
+		() =>
+			Float32Array.from(
+				Array.from({ length: count }, (_, i) => {
+					return colors[i].toArray();
+				}).flat(),
+			),
+		[count, colors],
+	);
+
+	let [hover, setHover] = useState<number | undefined>();
+	let previous = useRef<number | undefined>();
 
 	let [moons] = useState(() => {
 		return Array.from({ length: count }, (_, i) => {
 			let distance = Math.random() * orbitRadius;
 			let speed = (distance + 2) * (1 / 10);
 			return {
-				scale: Math.random() * 0.3 + 0.05,
+				scale: Math.random() * 0.5 + 0.05,
 				seed: Math.random() * 51421,
 				distance: distance + 4,
 				y: Math.sin(i),
@@ -111,9 +260,7 @@ function Moons({
 		};
 	});
 
-	let matrix = useMemo(() => new Matrix4(), []);
-
-	useFrame(({ clock }) => {
+	useFrame(({ clock }, d) => {
 		let t = clock.getElapsedTime();
 
 		springs.forEach((spring, i) => {
@@ -121,11 +268,21 @@ function Moons({
 			let t1 = t * speed + seed;
 			let scale = spring.scale.get();
 
-			matrix
-				.makeScale(scale, scale, scale)
-				.setPosition(Math.sin(t1) * distance, y, Math.cos(t1) * distance);
+			dampC(colors[i], i === hover ? hoverColor : moonColor, 0.2, d);
 
-			ref.current.setMatrixAt(i, matrix);
+			tempColor.set(colors[i]).toArray(colorArray, i * 3);
+
+			ref.current.geometry.attributes.color.needsUpdate = true;
+
+			tempObject.scale.setScalar(scale);
+			tempObject.position.set(
+				Math.sin(t1) * distance,
+				y,
+				Math.cos(t1) * distance,
+			);
+			tempObject.updateMatrix();
+
+			ref.current.setMatrixAt(i, tempObject.matrix);
 		});
 
 		ref.current.instanceMatrix.needsUpdate = true;
@@ -134,12 +291,25 @@ function Moons({
 	return (
 		<instancedMesh
 			castShadow
+			onPointerMove={(e) => {
+				previous.current = hover;
+				setHover(e.instanceId);
+			}}
+			onPointerLeave={() => {
+				previous.current = hover;
+				setHover(undefined);
+			}}
 			ref={ref}
-			{...props}
 			args={[undefined, undefined, count]}
+			{...props}
 		>
-			<sphereGeometry />
-			<meshToonMaterial />
+			<sphereGeometry>
+				<instancedBufferAttribute
+					args={[colorArray, 3]}
+					attach={'attributes-color'}
+				/>
+			</sphereGeometry>
+			<meshBasicMaterial vertexColors />
 		</instancedMesh>
 	);
 }
@@ -156,6 +326,9 @@ function Floor({
 	gap = 2,
 	...props
 }: GroupProps & { size?: [number, number]; gap?: number }) {
+	let gridColor = useColor().surfaceSubtle;
+	let crossColor = useColor().surfaceSubtle2;
+
 	let [planeWidth, planeHeight] = size;
 	let [columns, rows] = [planeWidth / gap + 1, planeHeight / gap + 1];
 	let [crosses] = useState(() =>
@@ -205,8 +378,9 @@ function Floor({
 
 	useFrame(() => {
 		springs.forEach((spring, i) => {
-			matrix.makeScale(...spring.scale.get());
-			matrix.setPosition(...spring.position.get());
+			matrix
+				.makeScale(...spring.scale.get())
+				.setPosition(...spring.position.get());
 
 			ref.current.setMatrixAt(i, matrix);
 		});
@@ -216,14 +390,14 @@ function Floor({
 
 	return (
 		<group {...props}>
-			<gridHelper args={[...size, '#aaa', '#aaa']} />
+			<gridHelper args={[...size, gridColor, gridColor]} />
 			<mesh
 				receiveShadow
 				position={[0, -0.02, 0]}
 				rotation={[-Math.PI / 2, 0, 0]}
 			>
 				<planeGeometry args={[...size]} />
-				<shadowMaterial color="black" opacity={0.5} />
+				<shadowMaterial color="black" opacity={0.2} />
 			</mesh>
 			<instancedMesh
 				receiveShadow
@@ -232,7 +406,7 @@ function Floor({
 				geometry={nodes.Cross.geometry}
 				args={[undefined, undefined, springs.length]}
 			>
-				<meshBasicMaterial />
+				<meshBasicMaterial color={crossColor} />
 			</instancedMesh>
 		</group>
 	);
