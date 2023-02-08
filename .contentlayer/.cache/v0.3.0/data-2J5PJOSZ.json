@@ -1,0 +1,27 @@
+{
+  "cacheItemsMap": {
+    "blog/hello-world.md": {
+      "document": {
+        "title": "Hello, world!",
+        "date": "2023-02-08T00:00:00.000Z",
+        "description": "It's my first post, welcome to my cool website.",
+        "body": {
+          "raw": "\n## Oh, hello!\n",
+          "html": "<h2>Oh, hello!</h2>"
+        },
+        "_id": "blog/hello-world.md",
+        "_raw": {
+          "sourceFilePath": "blog/hello-world.md",
+          "sourceFileName": "hello-world.md",
+          "sourceFileDir": "blog",
+          "contentType": "markdown",
+          "flattenedPath": "blog/hello-world"
+        },
+        "type": "BlogPost"
+      },
+      "documentHash": "1675893052418",
+      "hasWarnings": false,
+      "documentTypeName": "BlogPost"
+    }
+  }
+}

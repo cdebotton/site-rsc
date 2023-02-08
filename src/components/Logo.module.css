@@ -12,7 +12,6 @@
 	display: inline-flex;
 	flex-flow: column;
 	align-items: center;
-	pointer-events: none;
 	user-select: none;
 }
 

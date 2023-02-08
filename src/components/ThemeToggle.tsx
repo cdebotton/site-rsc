@@ -2,6 +2,7 @@
 
 import Button from './Button';
 import { ThemeContext } from './ThemeProvider';
+import styles from './ThemeToggle.module.css';
 
 export default function ThemeToggle() {
 	let [state, send] = ThemeContext.useActor();
@@ -17,5 +18,9 @@ export default function ThemeToggle() {
 		send({ type: 'TOGGLE_THEME' });
 	}
 
-	return <Button onClick={handleClick}>{label}</Button>;
+	return (
+		<Button className={styles.button} onClick={handleClick}>
+			{label}
+		</Button>
+	);
 }

@@ -1,0 +1,17 @@
+.button {
+	border: none;
+	background: none;
+	color: inherit;
+	cursor: pointer;
+	font-family: inherit;
+	font-size: var(--text-sm);
+	font-weight: 900;
+	letter-spacing: var(--tracking-tighter);
+	text-transform: uppercase;
+}
+
+@media not all and (hover: none) {
+	.button:hover {
+		color: var(--color-accent);
+	}
+}

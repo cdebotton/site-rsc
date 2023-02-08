@@ -15,3 +15,25 @@
 	padding: var(--space-4);
 	grid-column: 2 / span 1;
 }
+
+.footer {
+	display: flex;
+	justify-content: space-between;
+}
+
+.social ul {
+	display: flex;
+	font-size: var(--text-md);
+	gap: var(--space-4);
+}
+
+.socialLink {
+	display: inline-block;
+	padding: var(--space-2) var(--space-3);
+}
+
+@media not all and (hover: none) {
+	.socialLink:hover {
+		color: var(--color-accent);
+	}
+}

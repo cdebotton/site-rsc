@@ -2,6 +2,20 @@
 	display: grid;
 	height: 100%;
 	align-content: end;
+	gap: var(--space-2);
+}
+
+@media screen and (min-width: 900px) {
+	.container {
+		gap: var(--space-4);
+		grid-auto-flow: column;
+	}
+}
+
+@media screen and (min-width: 1280px) {
+	.container {
+		gap: var(--space-8);
+	}
 }
 
 .intro {
@@ -35,6 +49,10 @@
 	margin-bottom: var(--space-0);
 }
 
+.intro :global(strong) {
+	color: var(--color-emphasis);
+}
+
 @media screen and (min-width: 480px) {
 	.content {
 		gap: var(--space-16);
@@ -57,4 +75,37 @@
 	.intro {
 		max-width: 48ch;
 	}
+}
+
+.posts {
+	display: flex;
+	flex-flow: column;
+	gap: var(--space-8);
+	padding-block-start: var(--space-29);
+}
+
+.post {
+	display: flex;
+	flex-flow: column;
+}
+
+.postLink {
+	display: contents;
+}
+
+.postTitle {
+	color: var(--color-accent);
+	font-size: var(--text-lg);
+	font-weight: 900;
+}
+
+.postDate {
+	color: var(--color-emphasis);
+	font-size: var(--text-xs);
+	font-weight: 300;
+}
+
+.postDescription {
+	font-size: var(--text-sm);
+	margin-block-start: var(--space-2);
 }

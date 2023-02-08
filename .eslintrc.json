@@ -2,7 +2,7 @@
 	"extends": "next/core-web-vitals",
 	"rules": {
 		"import/order": [
-			2,
+			1,
 			{
 				"newlines-between": "always",
 				"groups": ["builtin", "external", "parent", "sibling", "index", "type"],

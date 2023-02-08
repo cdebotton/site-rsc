@@ -7,11 +7,9 @@
 	"explorer.fileNesting.enabled": true,
 	"explorer.fileNesting.patterns": {
 		"package.json": "pnpm-lock.yaml",
-		"*.tsx": "$(capture).module.css"
+		"*.tsx": "$(capture).module.css, $(capture).typegen.ts",
+		"*.ts": "$(capture).typegen.ts"
 	},
 	"typescript.tsdk": "node_modules/.pnpm/typescript@4.9.5/node_modules/typescript/lib",
-	"typescript.enablePromptUseWorkspaceTsdk": true,
-	"frontMatter.content.publicFolder": "",
-	"frontMatter.content.fmHighlight": true,
-	"frontMatter.content.autoUpdateDate": false
+	"typescript.enablePromptUseWorkspaceTsdk": true
 }

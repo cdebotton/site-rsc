@@ -10,14 +10,7 @@ import {
 	plumDark,
 } from '@radix-ui/colors';
 import { a, useSpring, useSprings } from '@react-spring/three';
-import {
-	useGLTF,
-	Edges,
-	Environment,
-	ContactShadows,
-	MeshTransmissionMaterial,
-	Preload,
-} from '@react-three/drei';
+import { useGLTF, Edges, Preload } from '@react-three/drei';
 import {
 	Canvas,
 	useFrame,
@@ -29,21 +22,21 @@ import {
 } from '@react-three/fiber';
 import { EffectComposer, SSAO } from '@react-three/postprocessing';
 import { damp, dampC } from 'maath/easing';
-import { ReactNode, Suspense, useMemo, useRef, useState } from 'react';
+import { ReactNode, useEffect, useMemo, useRef, useState } from 'react';
 import {
-	type InstancedMesh,
-	type Group,
 	Matrix4,
-	type Mesh,
 	SphereGeometry,
 	MeshBasicMaterial,
 	Color,
 	Object3D,
+	type InstancedMesh,
+	type Group,
+	type Mesh,
 } from 'three';
 
-import { ThemeContext } from './ThemeProvider';
-
 import type { GLTF } from 'three-stdlib';
+
+import { ThemeContext } from '@/components/ThemeProvider';
 
 function useColor() {
 	let theme = ThemeContext.useSelector((state) => state.context.theme);
@@ -106,16 +99,6 @@ export default function SolarSystem(props: Omit<Props, 'children'>) {
 					color="red"
 				/>
 			</EffectComposer>
-			<ContactShadows
-				position={[0, -30, 0]}
-				opacity={0.6}
-				scale={130}
-				blur={1}
-				far={40}
-			/>
-			<Suspense fallback={null}>
-				<Environment preset="sunset" />
-			</Suspense>
 			<Preload all />
 		</Canvas>
 	);
@@ -128,6 +111,20 @@ function Background() {
 
 function CameraOrbit() {
 	let { camera, pointer } = useThree();
+
+	useEffect(() => {
+		function handler() {
+			camera.zoom = Math.min(65 * (innerWidth / 800), 65);
+		}
+
+		window.addEventListener('resize', handler);
+
+		handler();
+
+		return () => {
+			window.removeEventListener('resize', handler);
+		};
+	}, [camera]);
 
 	useFrame((_, d) => {
 		damp(camera.position, 'x', Math.sin(pointer.x) * 20, 0.25, d);
