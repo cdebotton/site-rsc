@@ -1,7 +1,0 @@
-{
-  "version": 3,
-  "sources": ["../../../contentlayer.config.ts"],
-  "sourcesContent": ["import { makeSource, defineDocumentType } from 'contentlayer/source-files';\n\nexport const BlogPost = defineDocumentType(() => {\n\treturn {\n\t\tname: 'BlogPost',\n\t\tfilePathPattern: 'blog/**/*.md',\n\t\tcontentType: 'mdx',\n\t\tdescription: \"It's a post\",\n\t\tfields: {\n\t\t\ttitle: {\n\t\t\t\ttype: 'string',\n\t\t\t\trequired: true,\n\t\t\t},\n\t\t\tdate: {\n\t\t\t\ttype: 'date',\n\t\t\t\trequired: true,\n\t\t\t},\n\t\t\tdescription: {\n\t\t\t\ttype: 'string',\n\t\t\t\trequired: true,\n\t\t\t},\n\t\t},\n\t\tcomputedFields: {\n\t\t\tslug: {\n\t\t\t\ttype: 'string',\n\t\t\t\tresolve: (doc) => doc._raw.flattenedPath,\n\t\t\t},\n\t\t},\n\t};\n});\n\nexport default makeSource({\n\tdocumentTypes: [BlogPost],\n\tcontentDirPath: './content',\n});\n"],
-  "mappings": ";AAAA,SAAS,YAAY,0BAA0B;AAExC,IAAM,WAAW,mBAAmB,MAAM;AAChD,SAAO;AAAA,IACN,MAAM;AAAA,IACN,iBAAiB;AAAA,IACjB,aAAa;AAAA,IACb,aAAa;AAAA,IACb,QAAQ;AAAA,MACP,OAAO;AAAA,QACN,MAAM;AAAA,QACN,UAAU;AAAA,MACX;AAAA,MACA,MAAM;AAAA,QACL,MAAM;AAAA,QACN,UAAU;AAAA,MACX;AAAA,MACA,aAAa;AAAA,QACZ,MAAM;AAAA,QACN,UAAU;AAAA,MACX;AAAA,IACD;AAAA,IACA,gBAAgB;AAAA,MACf,MAAM;AAAA,QACL,MAAM;AAAA,QACN,SAAS,CAAC,QAAQ,IAAI,KAAK;AAAA,MAC5B;AAAA,IACD;AAAA,EACD;AACD,CAAC;AAED,IAAO,8BAAQ,WAAW;AAAA,EACzB,eAAe,CAAC,QAAQ;AAAA,EACxB,gBAAgB;AACjB,CAAC;",
-  "names": []
-}
