@@ -10,6 +10,7 @@
 		"lint": "next lint"
 	},
 	"dependencies": {
+		"@csstools/postcss-global-data": "^1.0.1",
 		"@next/font": "13.1.6",
 		"@radix-ui/colors": "^0.1.8",
 		"@radix-ui/react-icons": "^1.1.1",
@@ -28,6 +29,7 @@
 		"date-fns": "^2.29.3",
 		"eslint": "8.33.0",
 		"eslint-config-next": "13.1.6",
+		"framer-motion": "^9.0.2",
 		"kebab-case": "^1.0.2",
 		"maath": "^0.5.2",
 		"next": "13.1.6",

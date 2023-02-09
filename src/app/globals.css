@@ -105,6 +105,8 @@ ul {
 html {
 	display: grid;
 	height: 100%;
+	/* Scrollbar jump fix: https://css-tricks.com/elegant-fix-jumping-scrollbar-issue/ */
+	margin-left: calc(100vw - 100%);
 	background-color: var(--app-bg);
 	color: var(--text);
 	color-scheme: light dark;
@@ -168,4 +170,19 @@ button:focus {
 ::selection {
 	background-color: var(--mauve-12);
 	color: var(--purple-4);
+}
+
+p {
+	margin-bottom: var(--space-4);
+	font-size: var(--text-sm);
+	font-weight: 300;
+	line-height: var(--leading-body);
+}
+
+p:last-of-type {
+	margin-bottom: var(--space-0);
+}
+
+body {
+	padding-bottom: var(--space-8);
 }

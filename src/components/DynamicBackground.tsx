@@ -62,7 +62,7 @@ function useColor() {
 	};
 }
 
-export default function SolarSystem(props: Omit<Props, 'children'>) {
+export default function DynamicBackground(props: Omit<Props, 'children'>) {
 	return (
 		<Canvas
 			shadows="soft"
@@ -73,6 +73,17 @@ export default function SolarSystem(props: Omit<Props, 'children'>) {
 			eventSource={document.body}
 			{...props}
 		>
+			<SolarSystem />
+			<Preload all />
+		</Canvas>
+	);
+}
+
+function SolarSystem() {
+	let ssaoColor = useColor().accent;
+
+	return (
+		<>
 			<directionalLight intensity={0.4} />
 			<pointLight castShadow position={[-4, 10, 0]} intensity={0.8} />
 			<CameraOrbit />
@@ -89,18 +100,10 @@ export default function SolarSystem(props: Omit<Props, 'children'>) {
 					radius={0.15}
 					intensity={20}
 					luminanceInfluence={0.6}
-					color="red"
-				/>
-				<SSAO
-					samples={5}
-					radius={0.03}
-					intensity={15}
-					luminanceInfluence={0.6}
-					color="red"
+					color={ssaoColor}
 				/>
 			</EffectComposer>
-			<Preload all />
-		</Canvas>
+		</>
 	);
 }
 

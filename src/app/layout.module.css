@@ -1,8 +1,10 @@
 .container {
+	--column-width: minmax(20rem, 72rem);
 	position: relative;
 	display: grid;
 	height: 100%;
-	grid-template-columns: auto minmax(32rem, 72rem) auto;
+	padding: var(--space-8) var(--space-0);
+	grid-template-columns: auto var(--column-width) auto;
 	grid-template-rows: min-content auto min-content;
 }
 
@@ -12,28 +14,50 @@
 }
 
 .center {
-	padding: var(--space-4);
+	padding: var(--space-0) var(--space-4);
 	grid-column: 2 / span 1;
+
+	@media (--sm) {
+		padding: var(--space-0) var(--space-8);
+	}
 }
 
 .footer {
+	position: fixed;
+	display: grid;
+	backdrop-filter: blur(8px);
+	/* background-color: var(--color-surface); */
+	grid-template-columns: auto var(--column-width) auto;
+	inset: auto 0 0 0;
+}
+
+.footerContent {
 	display: flex;
 	justify-content: space-between;
+	padding: var(--space-2) var(--space-8);
 }
 
 .social ul {
 	display: flex;
 	font-size: var(--text-md);
-	gap: var(--space-4);
+	gap: var(--space-1);
+
+	@media (--md) {
+		gap: var(--space-4);
+	}
 }
 
 .socialLink {
 	display: inline-block;
-	padding: var(--space-2) var(--space-3);
-}
+	padding: var(--space-2) var(--space-1);
 
-@media not all and (hover: none) {
-	.socialLink:hover {
-		color: var(--color-accent);
+	@media (--md) {
+		padding: var(--space-2) var(--space-3);
+	}
+
+	@media (--has-hover) {
+		&:hover {
+			color: var(--color-accent);
+		}
 	}
 }

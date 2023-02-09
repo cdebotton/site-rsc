@@ -1,0 +1,4 @@
+@custom-media --has-hover not all and (hover: none);
+@custom-media --sm screen and (width >= 480px);
+@custom-media --md screen and (width >= 800px);
+@custom-media --lg screen and (width >= 1280px);

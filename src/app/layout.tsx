@@ -46,32 +46,34 @@ export default function RootLayout({
 							</Link>
 						</header>
 						<main className={cx(styles.center)}>{children}</main>
-						<footer className={cx(styles.center, styles.footer)}>
-							<nav className={styles.social}>
-								<ul>
-									<li>
-										<SocialLink href="https://github.com/cdebotton">
-											<GithubIcon />
-										</SocialLink>
-									</li>
-									<li>
-										<SocialLink href="https://linkedin.com/in/christiandebotton">
-											<LinkedinIcon />
-										</SocialLink>
-									</li>
-									<li>
-										<SocialLink href="https://glass.photo/cdb">
-											<GlassIcon />
-										</SocialLink>
-									</li>
-									<li>
-										<SocialLink href="https://mas.to/@cdebotton">
-											<MastodonIcon />
-										</SocialLink>
-									</li>
-								</ul>
-							</nav>
-							<ThemeToggle />
+						<footer className={cx(styles.footer)}>
+							<div className={cx(styles.center, styles.footerContent)}>
+								<nav className={styles.social}>
+									<ul>
+										<li>
+											<SocialLink href="https://github.com/cdebotton">
+												<GithubIcon />
+											</SocialLink>
+										</li>
+										<li>
+											<SocialLink href="https://linkedin.com/in/christiandebotton">
+												<LinkedinIcon />
+											</SocialLink>
+										</li>
+										<li>
+											<SocialLink href="https://glass.photo/cdb">
+												<GlassIcon />
+											</SocialLink>
+										</li>
+										<li>
+											<SocialLink href="https://mas.to/@cdebotton">
+												<MastodonIcon />
+											</SocialLink>
+										</li>
+									</ul>
+								</nav>
+								<ThemeToggle />
+							</div>
 						</footer>
 					</div>
 				</body>
