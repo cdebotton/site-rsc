@@ -68,7 +68,7 @@ export default function DynamicBackground(props: Omit<Props, 'children'>) {
 			shadows="soft"
 			orthographic
 			gl={{ alpha: false }}
-			camera={{ zoom: 50, position: [10, 20, 20] }}
+			camera={{ zoom: 50, position: [10, 20, 20], near: 0, far: 60 }}
 			eventPrefix="client"
 			eventSource={document.body}
 			{...props}
@@ -118,6 +118,7 @@ function CameraOrbit() {
 	useEffect(() => {
 		function handler() {
 			camera.zoom = Math.min(65 * (innerWidth / 800), 65);
+			camera.updateProjectionMatrix();
 		}
 
 		window.addEventListener('resize', handler);
@@ -194,7 +195,7 @@ function Planet(props: Pick<MeshProps, 'position' | 'rotation' | 'scale'>) {
 			{...props}
 		>
 			<octahedronGeometry args={[3, 3]} />
-			<meshToonMaterial color={planetColor} />
+			<meshToonMaterial transparent opacity={0.8} color={planetColor} />
 			<Edges color={edgeColor} />
 		</a.mesh>
 	);
