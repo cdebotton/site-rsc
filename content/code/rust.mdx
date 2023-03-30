@@ -1,0 +1,56 @@
+---
+title: Rust and stuff
+published: 2023-03-30T23:20:00Z
+preview: I like rust. It's fun to write.
+tags:
+  - rust
+---
+
+### Whoooooa baby
+
+So safe. So clean.
+
+```rust
+use std::fmt;
+
+#[derive(Debug, serde::Deserialize, serde::Serialize)]
+struct Point(usize, usize);
+
+impl Point {
+  pub fn add(&self, point: Point) -> Point {
+    Point(self.0 + point.0, self.1 + point.1)
+  }
+
+  pub fn add_mut(&mut self, point: Point) {
+    self.0 += point.0;
+    self.1 += point.1;
+  }
+}
+
+impl fmt::Display for Point {
+  fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+    write!(f, "({}, {})", self.0, self.1)
+  }
+}
+
+#[cfg(test)]
+mod tests {
+  #[test]
+  fn it_can_add_immutably() {
+    let point_a = Point(1, 2);
+    let point_b = Point(3, 4);
+    let point_c = point_a.add(point_b);
+
+    assert_eq!(point_c, (4, 6));
+  }
+}
+```
+
+Does it support tables?
+
+| Index | A value | Another value? |
+| ----- | ------- | -------------- |
+| 1     | 2       | 3              |
+| a     | b       | c              |
+
+Yeah, I guess it supports tables.

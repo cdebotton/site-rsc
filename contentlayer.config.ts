@@ -1,4 +1,9 @@
-import { defineDocumentType, makeSource } from 'contentlayer/source-files';
+import {
+	LocalDocument,
+	defineDocumentType,
+	makeSource,
+} from 'contentlayer/source-files';
+import readingTime from 'reading-time';
 import rehypeAutolinkHeadings from 'rehype-autolink-headings';
 import rehypePrettyCode from 'rehype-pretty-code';
 import rehypeSlug from 'rehype-slug';
@@ -22,11 +27,20 @@ export let Code = defineDocumentType(() => {
 				type: 'string',
 				required: true,
 			},
+			tags: {
+				type: 'list',
+				of: { type: 'string' },
+				required: true,
+			},
 		},
 		computedFields: {
 			slug: {
 				type: 'string',
-				resolve: (doc) => '/' + doc._raw.flattenedPath,
+				resolve: (doc: LocalDocument) => '/' + doc._raw.flattenedPath,
+			},
+			readingTime: {
+				type: 'number',
+				resolve: (doc) => readingTime(doc.body.raw).minutes,
 			},
 		},
 	};

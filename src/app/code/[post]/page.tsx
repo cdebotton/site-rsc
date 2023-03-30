@@ -4,7 +4,6 @@ import { notFound } from 'next/navigation';
 import { useMDXComponent } from 'next-contentlayer/hooks';
 
 export default function CodePage({ params }: { params: { post: string } }) {
-	console.log(params);
 	let post = allCodes.find((post) => post.slug === '/code/' + params.post);
 
 	if (!post) {
@@ -14,7 +13,7 @@ export default function CodePage({ params }: { params: { post: string } }) {
 	const Page = useMDXComponent(post.body.code);
 
 	return (
-		<div className="prose">
+		<div className="prose prose-lg">
 			<h2>Code</h2>
 			<Page />
 		</div>

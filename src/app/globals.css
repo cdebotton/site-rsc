@@ -3,8 +3,14 @@
 @tailwind utilities;
 @tailwind variants;
 
-@layer components {
-	.btn {
-		background-color: red;
+@layer utilities {
+	@keyframes bg-scroll-x {
+		from {
+			background-position: 0vw 0vh;
+		}
+
+		to {
+			background-position: -300vw 0vh;
+		}
 	}
 }
