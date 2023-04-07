@@ -1,4 +1,6 @@
 import './globals.css';
+import styles from './layout.module.css';
+import NavLink from './NavLink';
 
 import { Inter } from 'next/font/google';
 import { cookies } from 'next/headers';
@@ -35,13 +37,18 @@ export default function RootLayout({
 	return (
 		<html
 			data-color-scheme={getColorScheme()}
-			className={`${inter.className} grid h-full`}
+			className={inter.className}
 			lang="en"
 		>
-			<body className="bg-[conic-gradient(from_0deg_at_0%_50%,var(--tw-gradient-stops))] from-violet-3 via-indigo-4 to-plum-4 to-50% pb-24 antialiased [background-attachment:fixed]">
-				<div className="mx-auto mt-12 max-w-5xl pe-8 ps-8">
-					<header className="flex items-baseline gap-4">
+			<body>
+				<div className={styles.layout}>
+					<header>
 						<Logo />
+						<nav>
+							<NavLink href="/code">Code</NavLink>
+							<NavLink href="/photography">Photography</NavLink>
+							<NavLink href="/video">Video</NavLink>
+						</nav>
 					</header>
 					{children}
 				</div>
@@ -58,29 +65,20 @@ function Logo() {
 	];
 
 	return (
-		<Link className="mb-8 mt-0" href="/">
-			<h1 className="inline-flex flex-col">
-				<span
-					lang="ja"
-					className="ps-4 text-sm/none font-light tracking-widest text-slate-11"
-				>
-					クリスチャン・デボットン
-				</span>
-				<span className="animate-[bg-scroll-x_10s_linear_infinite_alternate] bg-gradient-to-r from-blue-9 via-purple-9 to-blue-9 bg-[size:400vw_400vh] bg-clip-text text-6xl/none font-extrabold tracking-tighter text-[transparent]">
-					Christian de Botton<span className="text-indigo-12">.</span>
+		<Link href="/">
+			<h1>
+				<span lang="ja">クリスチャン・デボットン</span>
+				<span>
+					Christian de Botton<span>.</span>
 				</span>
 			</h1>
-			<ul className="flex gap-2 ps-4">
+			<ul>
 				{descriptors.map((descriptor) => {
 					if (Array.isArray(descriptor)) {
 						// Rotating descriptor
 						// This should be a new client component since it'll use framer-motion.
 					} else {
-						return (
-							<li key={descriptor} className="text-xl/none font-extralight">
-								{descriptor}.
-							</li>
-						);
+						return <li key={descriptor}>{descriptor}.</li>;
 					}
 				})}
 			</ul>

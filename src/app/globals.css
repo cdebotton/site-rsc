@@ -1,16 +1,100 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-@tailwind variants;
+@layer preflight;
+@layer base;
 
-@layer utilities {
-	@keyframes bg-scroll-x {
-		from {
-			background-position: 0vw 0vh;
-		}
+@layer preflight {
+	@import 'modern-normalize';
+	blockquote,
+	dl,
+	dd,
+	h1,
+	h2,
+	h3,
+	h4,
+	h5,
+	h6,
+	hr,
+	figure,
+	p,
+	pre {
+		margin: 0;
+	}
 
-		to {
-			background-position: -300vw 0vh;
-		}
+	h1,
+	h2,
+	h3,
+	h4,
+	h5,
+	h6 {
+		font-size: inherit;
+		font-weight: inherit;
+	}
+
+	ol,
+	ul {
+		padding: 0;
+		margin: 0;
+		list-style: none;
+	}
+
+	img,
+	svg,
+	video,
+	canvas,
+	audio,
+	iframe,
+	embed,
+	object {
+		display: block;
+		vertical-align: middle;
+	}
+
+	img,
+	video {
+		max-width: 100%;
+		height: auto;
+	}
+
+	*,
+	::before,
+	::after {
+		border-width: 0;
+		border-style: solid;
+		border-color: var(--default-border-color, currentColor);
+	}
+}
+
+@layer base {
+	html {
+		display: grid;
+		height: 100%;
+	}
+
+	body {
+		-webkit-font-smoothing: antialiased;
+		-moz-osx-font-smoothing: grayscale;
+	}
+
+	.unit-00 {
+		--color-1: hsla(0, 35, 76, 1);
+		--color-2: hsla(0, 48, 21, 1);
+		--color-3: hsla(0, 61, 35, 1);
+		--color-4: hsla(0, 53, 25, 1);
+		--color-5: hsla(0, 57, 73, 1);
+	}
+
+	.unit-01 {
+		--color-1: hsla(281, 47, 37, 1);
+		--color-2: hsla(264, 41, 17, 1);
+		--color-3: hsla(208, 29, 19, 1);
+		--color-4: color: hsla(123, 66, 33, 1);
+		--color-5: color: hsla(118, 70, 43, 1);
+	}
+
+	.unit-02 {
+		--color-1: hsla(0, 54, 48, 1);
+		--color-2: hsla(0, 69, 51, 1);
+		--color-3: hsla(0, 78, 54, 1);
+		--color-4: hsla(0, 5, 92, 1);
+		--color-5: hsla(0, 6, 16, 1);
 	}
 }

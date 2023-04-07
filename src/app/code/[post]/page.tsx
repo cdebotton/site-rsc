@@ -13,7 +13,7 @@ export default function CodePage({ params }: { params: { post: string } }) {
 	const Page = useMDXComponent(post.body.code);
 
 	return (
-		<div className="prose prose-lg">
+		<div>
 			<h2>Code</h2>
 			<Page />
 		</div>

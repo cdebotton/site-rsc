@@ -7,6 +7,18 @@
 	"editor.codeActionsOnSave": {
 		"source.fixAll": true
 	},
-	"typescript.tsdk": "node_modules/.pnpm/typescript@5.0.2/node_modules/typescript/lib",
+	"files.associations": {
+		"*.css": "postcss"
+	},
+	"[postcss]": {
+		"editor.defaultFormatter": "esbenp.prettier-vscode"
+	},
+	"explorer.fileNesting.enabled": true,
+	"explorer.fileNesting.patterns": {
+		"Cargo.toml": "Cargo.lock",
+		"package.json": "package-lock.json, pnpm-lock.yaml",
+		"*.tsx": "$(capture).module.css, $(capture).test.tsx, $(capture).stories.tsx"
+	},
+	"typescript.tsdk": "node_modules/typescript/lib",
 	"typescript.enablePromptUseWorkspaceTsdk": true
 }

@@ -1,6 +1,6 @@
 export default function About() {
 	return (
-		<div className="prose prose-lg ">
+		<div>
 			<h2>About</h2>
 			<p>
 				Hello! I&apos;m a software engineer based in San Francisco, California.
